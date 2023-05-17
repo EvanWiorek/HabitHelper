@@ -1,0 +1,17 @@
+<div class="navbar-body border-bottom box-shadow">
+  <div class="navbar-content p-3">
+    <div class="bottom d-flex justify-content-between col-9 m-auto align-items-center">
+      <div class="left-side d-flex gap-5 align-items-end">
+        <a class="navlink" asp-controller="Habit"
+          asp-action="Dashboard"><h2>Habit Helper</h2></a>
+          <a class="navlink" asp-controller="Habit"
+          asp-action="HabitForm"><h4>Start a Habit</h4></a>
+      </div>
+      <div class="right-side d-flex gap-3">
+        <form asp-action="Logout" asp-controller="LogReg" method="post">
+          <input type="submit" value="Logout" class="btn btn-outline-danger"></input>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,86 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+  background-color: rgb(49, 57, 65);
+}
+
+a {
+  color: #0077cc;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.border-top {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px;
+  background-color: rgb(33,37,41);
+}
+
+.navlink {
+  font-size: 1.3rem;
+  color: rgb(111, 135, 159);
+  transition: .2s;
+}
+
+.navlink:hover {
+  color: rgb(128, 162, 196);
+}
+
+.active {
+  font-size: 1.3rem;
+  text-decoration: none;
+  color: rgb(252,250,250) !important;
+}
+
+.validation-text {
+  color: tomato;
+}
+
+.navbar-body {
+  background-color: rgb(33,37,41);
+}
+
+a {
+  color: rgb(111, 135, 159);
+}
+
+.italic {
+  font-style: italic;
+}
+
+.habits-list {
+  height: 500px;
+  overflow: auto;
+}

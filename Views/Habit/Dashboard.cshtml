@@ -1,0 +1,152 @@
+@{
+  ViewData["Title"] = "Home";
+}
+
+<div class="main-container d-flex justify-content-around mt-4">
+  <div class="left-side col-5">
+    <div class="card">
+      <div class="card-header">
+        <h2>Your Habits</h2>
+      </div>
+      <div class="card-body habits-list">
+
+        @{
+          foreach (Habit? h in ViewBag.MyHabits)
+          {
+            <div class="card mb-3">
+              <div class="card-body">
+                <div class="d-flex align-items-end gap-3">
+                  <h4>@h.Title</h4>
+                  @{
+                    @* var testTime = other.UpdatedAt.AddDays(0);
+              var testAgain = DateTime.Now - testTime;
+              <p>@testAgain.Days</p> *@
+                    if (DateTime.Now.Day - h.UpdatedAt.Day < 1)
+                    {
+                      <p class="validation-text m-2">Updated!</p>
+                    }
+                    else
+                    {
+                      <p></p>
+                    }
+                  }
+                </div>
+                @if (h.HabitCheeredBy.Count == 0)
+                {
+                  <p>No cheers yet.</p>
+                }
+                else if (h.HabitCheeredBy.Count == 1)
+                {
+                  <p>1 person is cheering you on!</p>
+                }
+                else
+                {
+                  int? realCountMy = h.HabitCheeredBy.Count - 1;
+                  <p>@h.HabitCheeredBy[0].User.FirstName and @realCountMy others are cheering you on!</p>
+                }
+                <p class="italic">@h.Category</p>
+                <div class="d-flex gap-4">
+                  <form asp-action="EditHabitForm" asp-controller="Habit" asp-route-habitId="@h.HabitId" method="get">
+                    <input type="submit" value="Edit" class="btn btn-warning">
+                  </form>
+                  <form asp-action="DestroyHabit" asp-controller="Habit" method="post" asp-route-habitId="@h.HabitId">
+                    <input type="submit" value="Delete" class="btn btn-danger">
+                  </form>
+                </div>
+              </div>
+            </div>
+
+          }
+        }
+
+      </div>
+    </div>
+  </div>
+  <div class="right-side col-5">
+    <div class="card">
+      <div class="card-header">
+        <h2>Other Habits</h2>
+      </div>
+      <div class="card-body habits-list">
+
+        @{
+          foreach (Habit? other in ViewBag.OtherHabits)
+          {
+            bool alreadyCheered = other.HabitCheeredBy.Any(u => u.UserId == Context.Session.GetInt32("UserId"));
+            <div class="card mb-3">
+              <div class="card-body">
+                <div class="d-flex align-items-end gap-2">
+                  <a class="navlink" asp-controller="Habit" asp-action="ShowUser"
+                    asp-route-userId="@other.Creator.UserId">@other.Creator.FirstName</a>
+                  <p class="m-0">
+                    is
+                    @other.Title
+                  </p>
+
+                  @{
+                    @* var testTime = other.UpdatedAt.AddDays(0);
+              var testAgain = DateTime.Now - testTime;
+              <p>@testAgain.Days</p> *@
+                    if (DateTime.Now.Day - other.UpdatedAt.Day < 1)
+                    {
+                      <p class="validation-text m-0">Updated!</p>
+                    }
+                    else
+                    {
+                      <p></p>
+                    }
+                  }
+                </div>
+
+
+                @{
+                  if (other.HabitCheeredBy.Count == 0)
+                  {
+                    <p>Give them their first cheer!</p>
+                  }
+                  else if (other.HabitCheeredBy.Count == 1)
+                  {
+                    <p>1 person is cheering them on!</p>
+                  }
+                  else
+                  {
+                    int? realCount = other.HabitCheeredBy.Count - 1;
+                    if (alreadyCheered)
+                    {
+                      <p>You and @realCount others are cheering them on!</p>
+                    }
+                    else
+                    {
+                      <p>@other.HabitCheeredBy[0].User.FirstName and @realCount others are cheering them on!</p>
+                    }
+                  }
+                }
+
+
+                <div class="d-flex align-items-center justify-content-between">
+                  <p class="italic m-0">@other.Category</p>
+
+                  @{
+
+                    if (alreadyCheered)
+                    {
+                      <p class="text-secondary italic">Thanks for the cheer!</p>
+                    }
+                    else
+                    {
+                      <form asp-action="CheerOn" asp-controller="Habit" method="post" asp-route-habitId="@other.HabitId">
+                        <input type="submit" value="Cheer on!" class="btn btn-primary">
+                      </form>
+                    }
+                  }
+
+                </div>
+              </div>
+            </div>
+          }
+        }
+
+      </div>
+    </div>
+  </div>
+</div>

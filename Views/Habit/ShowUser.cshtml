@@ -1,0 +1,69 @@
+@model User
+
+@{
+  ViewData["Title"] = "@Model.User.FirstName's Habits";
+}
+
+<div class="card col-6 mt-4 m-auto">
+  <div class="card-header">
+    <h2>@Model.FirstName's habits are...</h2>
+  </div>
+  <div class="card-body">
+
+    @{
+      foreach (Habit? h in Model.MyHabits)
+      {
+        bool alreadyCheered = h.HabitCheeredBy.Any(u => u.UserId == Context.Session.GetInt32("UserId"));
+        <div class="card">
+          <div class="card-header d-flex gap-3 align-items-center">
+            <h4>@h.Title</h4>
+            <h4>|</h4>
+            <h4 class="italic">@h.Category</h4>
+          </div>
+          <div class="card-body">
+            <p>@h.Description</p>
+
+            @{
+              if (h.HabitCheeredBy.Count == 0)
+              {
+                <p>Give them their first cheer!</p>
+              }
+              else if (h.HabitCheeredBy.Count == 1)
+              {
+                <p>1 person is cheering them on!</p>
+              }
+              else
+              {
+                int? realCount = h.HabitCheeredBy.Count - 1;
+                if (alreadyCheered)
+                {
+                  <p>You and @realCount others are cheering them on!</p>
+                }
+                else
+                {
+                  <p>@h.HabitCheeredBy[0].User.FirstName and @realCount others are cheering them on!</p>
+                }
+              }
+            }
+
+            @{
+
+              if (alreadyCheered)
+              {
+                <p class="text-secondary italic">Thanks for the cheer!</p>
+              }
+              else
+              {
+                <form asp-action="CheerOn" asp-controller="Habit" method="post" asp-route-habitId="@h.HabitId">
+                  <input type="submit" value="Cheer on!" class="btn btn-primary">
+                </form>
+              }
+            }
+
+          </div>
+        </div>
+      }
+    }
+
+  </div>
+</div>
